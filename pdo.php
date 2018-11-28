@@ -1,11 +1,17 @@
 <?php 
-require("configs.php");
-$conn  = new pdo("mysql:dbname=<nome_banco>;host=<host>","<user>","<senha>");
 
+$conn = new PDO("mysql:dbname=<dbname>;host=<host>","<usuario>","<senha>");
 
-$stmt = $conn->prepare("insert into users(<coluna1>,<coluna2>,<coluna3>) values(?,?,?)");
+$stmt = $conn->prepare(" select * from <tabela> order by <coluna>");
+$stmt->execute();
+//fatiado em 5 arrays
+$result = $stmt->fetchAll(pdo::FETCH_ASSOC);
 
-$user = "<valor1>";
-$email = "<valor2>";
-$senha = md5(uniqid(rand(),true));
-$stmt->execute([$user,$email,$senha]);
+//foreach de array
+foreach($result as $key => $resultado){
+        echo "<div style='color:blue'>" .$key . "-" . $resultado. "</div>" ."</br>" ;
+        foreach ($resultado as $key => $value) {
+            echo "<i style='color:red'>" . $key  ."</i>". ":" . $value . "</br>";
+        }
+        echo "</br></br>";
+    }
